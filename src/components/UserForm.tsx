@@ -1,7 +1,7 @@
-import { useEffect, useMemo } from "react";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import {
   Dialog,
   DialogTitle,
@@ -9,111 +9,100 @@ import {
   DialogActions,
   TextField,
   Button,
-  Grid,
-  IconButton,
-  Box,
-  Typography,
-} from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import { userFields } from "../config/userFields";
+} from '@mui/material';
+// Using the specific Grid v1 path to bypass the "No overload matches" error
+// import Grid from '@mui/material/Grid'; 
+import { Grid } from '@mui/material';
+import { formFields } from '../config/formFields';
+import type { User } from '../types';
 
-interface Props {
+interface UserFormProps {
   open: boolean;
   onClose: () => void;
   onSubmit: (data: any) => void;
-  defaultValues?: any;
+  defaultValues?: User;
 }
 
-export default function UserForm({
+const UserForm: React.FC<UserFormProps> = ({
   open,
   onClose,
   onSubmit,
   defaultValues,
-}: Props) {
-  const validationSchema = useMemo(() => {
-    const shape: any = {};
-    userFields.forEach((field) => {
+}) => {
+  const validationSchema = yup.object().shape(
+    formFields.reduce((schema, field) => {
       let validator = yup.string();
       if (field.required) {
         validator = validator.required(`${field.label} is required`);
       }
       if (field.pattern) {
-        validator = validator.matches(
-          field.pattern,
-          field.patternMessage || "Invalid format"
-        );
+        validator = validator.matches(field.pattern, field.patternMessage || 'Invalid format');
       }
-      shape[field.name] = validator;
-    });
-    return yup.object().shape(shape);
-  }, []);
+      return { ...schema, [field.name]: validator };
+    }, {})
+  );
 
+  // Use <any> to allow dynamic string indexing for errors[field.name]
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm({
+  } = useForm<any>({
     resolver: yupResolver(validationSchema),
   });
 
-  useEffect(() => {
-    reset(defaultValues || {});
-  }, [defaultValues, reset]);
+  // FIX: Clear form when opening for "Add", or populate for "Edit"
+  React.useEffect(() => {
+    if (open) {
+      if (defaultValues) {
+        reset(defaultValues);
+      } else {
+        // Reset all fields to empty strings based on your config
+        const emptyState = formFields.reduce((acc, field) => ({ 
+          ...acc, 
+          [field.name]: '' 
+        }), {});
+        reset(emptyState);
+      }
+    }
+  }, [open, defaultValues, reset]);
+
+  const onFormSubmit = (data: any) => {
+    onSubmit(data);
+    onClose();
+  };
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      {/* HEADER */}
-      <DialogTitle sx={{ pb: 1 }}>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <Typography fontWeight={700}>
-            {defaultValues ? "Edit User" : "Add User"}
-          </Typography>
-
-          <IconButton onClick={onClose}>
-            <CloseIcon />
-          </IconButton>
-        </Box>
-      </DialogTitle>
-
-      <form
-        onSubmit={handleSubmit((data) => {
-          onSubmit(data);
-          onClose();
-        })}
-      >
+      <DialogTitle>{defaultValues ? 'Edit User' : 'Add User'}</DialogTitle>
+      <form onSubmit={handleSubmit(onFormSubmit)}>
         <DialogContent>
           <Grid container spacing={2}>
-            {userFields.map((field) => (
+            {formFields.map((field) => (
               <Grid item xs={12} key={field.name}>
                 <TextField
-                  fullWidth
+                  {...register(field.name)}
                   label={field.label}
                   type={field.type}
-                  {...register(field.name)}
+                  fullWidth
                   error={!!errors[field.name]}
                   helperText={errors[field.name]?.message as string}
+                  InputLabelProps={field.type === 'date' ? { shrink: true } : undefined}
                 />
               </Grid>
             ))}
           </Grid>
         </DialogContent>
-
         <DialogActions sx={{ px: 3, pb: 2 }}>
-          <Button onClick={onClose} variant="outlined">
-            Cancel
-          </Button>
-          <Button type="submit" variant="contained">
+          <Button onClick={onClose}>Cancel</Button>
+          <Button type="submit" variant="contained" color="primary">
             Save
           </Button>
         </DialogActions>
       </form>
     </Dialog>
   );
-}
+};
+
+export default UserForm;
