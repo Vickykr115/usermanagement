@@ -1,4 +1,3 @@
-// Derive User type from form field names (ensures consistency)
 import { formFields } from '../config/formFields';
 
 export type User = {

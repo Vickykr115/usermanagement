@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Container,
   AppBar,
   Toolbar,
   Typography,
   Button,
-  Box,
   Alert,
   Snackbar,
 } from '@mui/material';

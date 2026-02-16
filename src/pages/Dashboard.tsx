@@ -13,7 +13,7 @@ import AddIcon from "@mui/icons-material/Add";
 import UserForm from "../components/UserForm";
 import UserTable from "../components/UserTable";
 import ConfirmDialog from "../components/ConfirmDialog";
-import { getUsers, createUser, updateUser, deleteUser } from "../api/userApi";
+import { getUsers, createUser, updateUser, deleteUser } from "../api/userApis";
 
 export default function Dashboard() {
   const [users, setUsers] = useState<any[]>([]);
