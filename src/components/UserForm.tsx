@@ -10,8 +10,6 @@ import {
   TextField,
   Button,
 } from '@mui/material';
-// Using the specific Grid v1 path to bypass the "No overload matches" error
-// import Grid from '@mui/material/Grid'; 
 import { Grid } from '@mui/material';
 import { formFields } from '../config/formFields';
 import type { User } from '../types';

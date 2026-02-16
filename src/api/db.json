@@ -1,13 +1,6 @@
 {
   "users": [
     {
-      "firstName": "cat",
-      "lastName": "ray",
-      "phoneNumber": "1234567890",
-      "email": "shanu@gmail.com",
-      "id": 2
-    },
-    {
       "firstName": "vicky",
       "lastName": "kumar",
       "phoneNumber": "9065566629",
