@@ -3,7 +3,7 @@
 A clean, modern, and scalable **React-based CRUD (Create, Read, Update, Delete)** application that manages user data using an API.  
 Built with **future extensibility** in mind — new fields can be added with minimal code changes.
 
-![Vercel ](https://usermanagementcrud-git-main-vicky-s-projects-8fe8512c.vercel.app/)
+![Vercel Live](https://usermanagementcrud-git-main-vicky-s-projects-8fe8512c.vercel.app/)
 
 ---
 
