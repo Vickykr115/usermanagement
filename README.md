@@ -1,73 +1,82 @@
-# React + TypeScript + Vite
+# 👤 React CRUD User Management App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A clean, modern, and scalable **React-based CRUD (Create, Read, Update, Delete)** application that manages user data using an API.  
+Built with **future extensibility** in mind — new fields can be added with minimal code changes.
 
-Currently, two official plugins are available:
+![Vercel ](https://usermanagementcrud-git-main-vicky-s-projects-8fe8512c.vercel.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🚀 Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- ➕ Create new users with validation
+- 📄 View all users in a clean table layout
+- ✏️ Edit user details instantly
+- 🗑 Delete users with confirmation dialog
+- ✅ Required field enforcement (First Name, Last Name, Phone, Email)
+- 📧 Email format validation
+- 📱 Responsive UI (works well on desktop + mobile)
+- 🧩 Extensible architecture (schema/config driven fields)
+- 🎨 Modern UI built using Material UI
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🧾 User Fields
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+The application currently supports the following fields:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- First Name *(Required)*
+- Last Name *(Required)*
+- Phone Number *(Required + Validated)*
+- Email Address *(Required + Validated)*
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🧩 Extensibility (Future-Proof Design)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+This project is designed so that adding new fields like:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+✅ Date of Birth  
+✅ Address  
+✅ City / Country  
+✅ User Role  
+
+...requires only updating a **single config/schema file**, without rewriting major UI or backend logic.
+
+---
+
+## 📁 Folder Structure
+
+```bash
+📦 root/
+├── 📁 src/
+│   ├── 📁 api/                 # API integration layer
+│   │   └── userApis.ts
+│   │
+│   ├── 📁 components/          # Reusable UI components
+│   │   ├── UserForm.tsx
+│   │   ├── UserList.tsx
+│   │   ├── ConfirmDialog.tsx
+│   │   └── ...
+│   │
+│   ├── 📁 types/               # TypeScript types/interfaces
+│   │   └── index.ts
+│   │
+│   ├── App.tsx
+│   └── main.tsx
+│
+├── 📄 package.json
+├── 📄 index.html
+└── 📄 README.md
+
+Clone the repository: git clone https://github.com/Vickykr115/usermanagement
+
+Go inside the project folder : cd your-repo-name
+
+Install dependencies : npm install
+Start the development server:npm run dev
+
+GET    /users        # Fetch all users
+POST   /users        # Create new user
+PUT    /users/:id    # Update user
+DELETE /users/:id    # Delete user
